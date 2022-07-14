@@ -1,0 +1,27 @@
+{
+  "name": "dio-mentoriatypescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server",
+    "watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peoft/DIO-MentoriaTypeScript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peoft/DIO-MentoriaTypeScript/issues"
+  },
+  "homepage": "https://github.com/peoft/DIO-MentoriaTypeScript#readme",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "lite-server": "^2.6.1"
+  }
+}
