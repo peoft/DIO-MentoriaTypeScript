@@ -1,20 +1,46 @@
-"use strict";
-let button = document.getElementById('button');
-let input1 = document.getElementById('input1');
-let input2 = document.getElementById('input2');
-function somaNumeros(numero1, numero2, devPrintar) {
-    let resultado = numero1 + numero2;
-    if (devPrintar) {
-        console.log(frase + resultado);
+// objeto
+var pessoa = {
+    nome: 'Mariana',
+    idade: 28,
+    profissao: 'desenvolvedora'
+};
+var andre = {
+    nome: 'Andre',
+    idade: 25,
+    profissao: 'pintor'
+};
+var paula = {
+    nome: 'Paula',
+    idade: 25,
+    profissao: 'Desenvolvedora'
+};
+var Profissao;
+(function (Profissao) {
+    Profissao[Profissao["Professora"] = 0] = "Professora";
+    Profissao[Profissao["Atriz"] = 1] = "Atriz";
+    Profissao[Profissao["Desenvolvedora"] = 2] = "Desenvolvedora";
+    Profissao[Profissao["JogadoraDeFutebol"] = 3] = "JogadoraDeFutebol";
+})(Profissao || (Profissao = {}));
+var vanessa = {
+    nome: 'Vanessa',
+    idade: 23,
+    profissao: Profissao.Desenvolvedora
+};
+var jessica = {
+    nome: 'Jessica',
+    idade: 28,
+    profissao: Profissao.Desenvolvedora,
+    materias: ['Matematica discreta', 'Programação']
+};
+var monica = {
+    nome: 'Monica',
+    idade: 28,
+    materias: ['Matematica discreta', 'Programação']
+};
+function listar(lista) {
+    for (var _i = 0, lista_1 = lista; _i < lista_1.length; _i++) {
+        var item = lista_1[_i];
+        console.log('- ', item);
     }
-    return numero1 + numero2;
 }
-let devPrintar = true;
-let frase = "O valor é: ";
-if (button) {
-    button.addEventListener('click', () => {
-        if (input1 && input2) {
-            somaNumeros(Number(input1.value), Number(input2.value), devPrintar);
-        }
-    });
-}
+listar(monica.materias);

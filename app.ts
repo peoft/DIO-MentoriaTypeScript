@@ -1,26 +1,63 @@
-let button = document.getElementById('button');
-let input1 = document.getElementById('input1') as HTMLInputElement;
-let input2 = document.getElementById('input2') as HTMLInputElement;
+// objeto
+const pessoa = {
+    nome: 'Mariana',
+    idade: 28,
+    profissao: 'desenvolvedora'
+}
 
-function somaNumeros(numero1: number, numero2:number, devPrintar:boolean, frase:string) {
-    let resultado = numero1 + numero2;
-    if (devPrintar) {
-        console.log(frase + resultado);
+const andre : {nome: string, idade: number, profissao: string} = {
+    nome: 'Andre',
+    idade: 25,
+    profissao: 'pintor'
+}
+
+const paula : {nome: string, idade: number, profissao: string} = {
+    nome: 'Paula',
+    idade: 25,
+    profissao: 'Desenvolvedora'
+}
+
+enum Profissao {
+    Professora,
+    Atriz,
+    Desenvolvedora,
+    JogadoraDeFutebol
+}
+
+interface IPessoa {
+    nome: string, 
+    idade: number,
+    // profissão não é obrigatória
+    profissao?: Profissao
+}
+
+interface IEstudante  extends IPessoa {
+    materias: string[]    
+}
+
+const vanessa: IPessoa = {
+    nome: 'Vanessa',
+    idade: 23,
+    profissao: Profissao.Desenvolvedora
+}
+
+const jessica: IEstudante = {
+    nome: 'Jessica',
+    idade: 28,
+    profissao: Profissao.Desenvolvedora,
+    materias: ['Matematica discreta', 'Programação']
+}
+
+const monica: IEstudante = {
+    nome: 'Monica',
+    idade: 28,
+    materias: ['Matematica discreta', 'Programação']
+}
+
+function listar(lista: string []) {
+    for (const item of lista) {
+        console.log('- ', item);
     }
-    return resultado;
 }
 
-let devPrintar = true;
-// Typescript pode inferir o tipo ou 
-// Pode ser definido explicitamente.
-let frase:string;
-
-frase = "O valor é: ";
-
-if (button) {
-    button.addEventListener('click', () => {
-        if (input1 && input2) {
-            somaNumeros(Number(input1.value), Number(input2.value), devPrintar, frase);
-        }        
-    })
-}
+listar(monica.materias);
