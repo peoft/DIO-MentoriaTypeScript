@@ -1,19 +1,25 @@
-function somarValoresNumericosETratar(input1:number, input2: number, callback: (numero: number) => number):number {
-    let resultado = input1 + input2;
-    return callback(resultado);
-}
+let anyEstaDeVolta: any;
 
-function printaValoresNumericos(numero1: number, numero2: number):void {
-    console.log(numero1 + numero2);
-}
+anyEstaDeVolta = 3;
+anyEstaDeVolta = 'string';
 
-function aoQuadrado(numero: number):number{
-    return numero * numero;
-}
+let stringTest:string = 'verificar';
 
-function dividirPorEleMesmo(numero: number):number {
-    return numero / numero;
-}
+stringTest = anyEstaDeVolta;
 
-console.log(somarValoresNumericosETratar(5, 3, aoQuadrado));
-console.log(somarValoresNumericosETratar(5, 3, dividirPorEleMesmo));
+let unknownValor: unknown;
+
+unknownValor = 3;
+unknownValor = 'opa';
+unknownValor = true;
+unknownValor = 'vai sim';
+
+let stringTest2:string = 'agora vai';
+// tipo unknown nao pode ser atribuido a uma string.
+//stringTest2 = unknownValor;
+
+let numero: number = 3;
+
+if (typeof unknownValor === 'string') {
+    stringTest2 = unknownValor;
+}
