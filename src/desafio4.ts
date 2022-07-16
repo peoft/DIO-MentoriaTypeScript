@@ -107,7 +107,7 @@ function validateLoginButton() {
 }
 
 class HttpClient {
-    static async get( { url, method, body = null }: { url: string, method:string, body?: any}) {
+    static async get( { url, method, body = null }: { url: string, method:string, body?: any}): Promise<object> {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest();
             request.open(method, url, true);
@@ -157,20 +157,20 @@ async function adicionarFilme(filmeId:string) {
 }
 
 async function criarRequestToken() {
-   let result: { 
+    interface IResponseToken {
         success: boolean,
-        expires_at: string,
-        request_token:string
-    };
-
-    let ret;
+        expires_at: Date,
+        request_token: string
+    }
     
-    ret = await HttpClient.get({
+    await HttpClient.get({
         url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`,
-        method: "GET"
+        method: "GET"    
+    }).then ( (result) => {
+        let resposta = result as IResponseToken;        
+        requestToken = resposta.request_token;
     })
-    result = JSON.parse(String(ret));
-    requestToken = result.request_token;
+
 }
 
 async function logar() {
