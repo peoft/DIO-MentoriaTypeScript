@@ -107,7 +107,7 @@ function validateLoginButton() {
 }
 
 class HttpClient {
-    static async get( { url, method, body = null }: { url: string, method:string, body?: any}): Promise<object> {
+    static async get( { url, method, body = null }: { url: string, method:string, body?: any}) {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest();
             request.open(method, url, true);
@@ -167,8 +167,8 @@ async function criarRequestToken() {
         url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`,
         method: "GET"    
     }).then ( (result) => {
-        let resposta = result as IResponseToken;        
-        requestToken = resposta.request_token;
+        let response = result as IResponseToken;        
+        requestToken = response.request_token;
     })
 
 }
@@ -186,19 +186,18 @@ async function logar() {
 }
 
 async function criarSessao() {    
-    let result: { 
+    interface IResponseSession {
         success: boolean,
         session_id: string
-    };
+    }
 
-    let ret;
-
-    ret = await HttpClient.get({
+    await HttpClient.get({
         url: `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}&request_token=${requestToken}`,
         method: "GET"
+    }).then ( (result) => {
+        let response = result as IResponseSession;        
+        sessionId = response.session_id;
     })
-    result = JSON.parse(String(ret));
-    sessionId = result.session_id;
 }
 
 async function criarLista(nomeDaLista:string, descricao:string) {
