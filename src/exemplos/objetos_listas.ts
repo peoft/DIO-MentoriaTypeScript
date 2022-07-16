@@ -2,49 +2,49 @@
 const pessoa = {
     nome: 'Mariana',
     idade: 28,
-    profissao: 'desenvolvedora'
+    profissaoTeste: 'desenvolvedora'
 }
 
-const andre : {nome: string, idade: number, profissao: string} = {
+const andre : {nome: string, idade: number, profissaoTeste: string} = {
     nome: 'Andre',
     idade: 25,
-    profissao: 'pintor'
+    profissaoTeste: 'pintor'
 }
 
-const paula : {nome: string, idade: number, profissao: string} = {
+const paula : {nome: string, idade: number, profissaoTeste: string} = {
     nome: 'Paula',
     idade: 25,
-    profissao: 'Desenvolvedora'
+    profissaoTeste: 'Desenvolvedora'
 }
 
-enum Profissao {
-    Professora,
-    Atriz,
-    Desenvolvedora,
-    JogadoraDeFutebol
+enum ProfissaoTeste {
+    ProfessoraTeste,
+    AtrizTeste,
+    DesenvolvedoraTeste,
+    JogadoraDeFutebolTeste
 }
 
-interface IPessoa {
+interface IPessoaTeste {
     nome: string, 
     idade: number,
     // profissão não é obrigatória
-    profissao?: Profissao
+    profissaoTeste?: ProfissaoTeste
 }
 
-interface IEstudante  extends IPessoa {
+interface IEstudante  extends IPessoaTeste {
     materias: string[]    
 }
 
-const vanessa: IPessoa = {
+const vanessa: IPessoaTeste = {
     nome: 'Vanessa',
     idade: 23,
-    profissao: Profissao.Desenvolvedora
+    profissaoTeste: ProfissaoTeste.DesenvolvedoraTeste
 }
 
 const jessica: IEstudante = {
     nome: 'Jessica',
     idade: 28,
-    profissao: Profissao.Desenvolvedora,
+    profissaoTeste: ProfissaoTeste.DesenvolvedoraTeste,
     materias: ['Matematica discreta', 'Programação']
 }
 
