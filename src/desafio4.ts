@@ -17,6 +17,31 @@ let password: string;
 let sessionId:string;
 let listId: string = '7101979';
 
+interface IResults {
+    poster_path: string,
+    adult: boolean,
+    overview: string,
+    release_date: Date,
+    genre_ids: [
+        number
+    ],
+    id: number,
+    original_title: string,
+    original_language: string,
+    title: string,
+    backdrop_path: string,
+    popularity: number,
+    vote_count: number,
+    video: boolean,
+    vote_average: number
+}
+
+interface IResponseSearch {
+    page: number,
+    results: [IResults];
+};
+
+
 let loginButton = document.getElementById('login-button') as HTMLButtonElement;
 let searchButton = document.getElementById('search-button') as HTMLButtonElement;
 let searchContainer = document.getElementById('search-container') as HTMLDivElement;
@@ -34,31 +59,13 @@ searchButton?.addEventListener('click', async () => {
     }
     let search = document.getElementById('search') as HTMLInputElement;
     if (search != null) {
-        let ret;
-        let listaDeFilmes: {
-            results:[{
-                poster_path: string,
-                adult: boolean,
-                overview: string,
-                genre_ids: [
-                    number
-                ],
-                id: 24428,
-                original_title: string,
-                original_language: string,
-                title: string,
-                backdrop_path: string,
-                popularity: number,
-                vote_count: number,
-                video: boolean,
-                vote_average: number
-        }]
-
-        }
+        let ret:unknown;
+        let listaDeFilmes:IResponseSearch;
         let query = search.value;
-        ret = await procurarFilme(query);
-
-        listaDeFilmes = JSON.parse(String(ret));
+        await procurarFilme(query).then( (result) => {
+            ret = result as IResponseSearch;
+        });
+        listaDeFilmes = ret as IResponseSearch;
 
         let ul = document.createElement('ul');
         ul.id = "lista"
@@ -138,14 +145,19 @@ class HttpClient {
     }
 }
 
-async function procurarFilme(query:string) {
+async function procurarFilme(query:string){
+    let response = {} ;
+
     query = encodeURI(query)
     console.log(query)
-    let result = await HttpClient.get({
+    await HttpClient.get({
         url: `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}`,
         method: "GET"
+    }).then((result) => {
+        response = result as IResponseSearch;
+
     })
-    return result
+    return response;
 }
 
 async function adicionarFilme(filmeId:string) {
