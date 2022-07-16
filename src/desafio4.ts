@@ -10,11 +10,11 @@
 // Atenção para o listener do botão login-button que devolve o sessionID do usuário
 // É necessário fazer um cadastro no https://www.themoviedb.org/ e seguir a documentação do site para entender como gera uma API key https://developers.themoviedb.org/3/getting-started/introduction
 
-let apiKey: string = '3f301be7381a03ad8d352314dcc3ec1d';
-let requestToken;
+let apiKey: string = 'bcccfcfb7dc6fc125a72e19d361d31e8';
+let requestToken:string;
 let username: string;
 let password: string;
-let sessionId;
+let sessionId:string;
 let listId: string = '7101979';
 
 let loginButton = document.getElementById('login-button') as HTMLButtonElement;
@@ -34,8 +34,32 @@ searchButton?.addEventListener('click', async () => {
     }
     let search = document.getElementById('search') as HTMLInputElement;
     if (search != null) {
+        let ret;
+        let listaDeFilmes: {
+            results:[{
+                poster_path: string,
+                adult: boolean,
+                overview: string,
+                genre_ids: [
+                    number
+                ],
+                id: 24428,
+                original_title: string,
+                original_language: string,
+                title: string,
+                backdrop_path: string,
+                popularity: number,
+                vote_count: number,
+                video: boolean,
+                vote_average: number
+        }]
+
+        }
         let query = search.value;
-        let listaDeFilmes = await procurarFilme(query);
+        ret = await procurarFilme(query);
+
+        listaDeFilmes = JSON.parse(String(ret));
+
         let ul = document.createElement('ul');
         ul.id = "lista"
         for (const item of listaDeFilmes.results) {
@@ -43,9 +67,9 @@ searchButton?.addEventListener('click', async () => {
             li.appendChild(document.createTextNode(item.original_title))
             ul.appendChild(li)
         }
+        console.log(listaDeFilmes);
+        searchContainer.appendChild(ul);    
     }
-    console.log(listaDeFilmes);
-    searchContainer.appendChild(ul);
 })
 
 function preencherSenha() {
@@ -83,7 +107,7 @@ function validateLoginButton() {
 }
 
 class HttpClient {
-    static async get({ url, method, body = null }) {
+    static async get( { url, method, body = null }: { url: string, method:string, body?: any}) {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest();
             request.open(method, url, true);
@@ -133,11 +157,20 @@ async function adicionarFilme(filmeId:string) {
 }
 
 async function criarRequestToken() {
-    let result = await HttpClient.get({
+   let result: { 
+        success: boolean,
+        expires_at: string,
+        request_token:string
+    };
+
+    let ret;
+    
+    ret = await HttpClient.get({
         url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`,
         method: "GET"
     })
-    requestToken = result.request_token
+    result = JSON.parse(String(ret));
+    requestToken = result.request_token;
 }
 
 async function logar() {
@@ -152,15 +185,23 @@ async function logar() {
     })
 }
 
-async function criarSessao() {
-    let result = await HttpClient.get({
+async function criarSessao() {    
+    let result: { 
+        success: boolean,
+        session_id: string
+    };
+
+    let ret;
+
+    ret = await HttpClient.get({
         url: `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}&request_token=${requestToken}`,
         method: "GET"
     })
+    result = JSON.parse(String(ret));
     sessionId = result.session_id;
 }
 
-async function criarLista(nomeDaLista, descricao) {
+async function criarLista(nomeDaLista:string, descricao:string) {
     let result = await HttpClient.get({
         url: `https://api.themoviedb.org/3/list?api_key=${apiKey}&session_id=${sessionId}`,
         method: "POST",
@@ -173,7 +214,7 @@ async function criarLista(nomeDaLista, descricao) {
     console.log(result);
 }
 
-async function adicionarFilmeNaLista(filmeId, listaId) {
+async function adicionarFilmeNaLista(filmeId:BigInteger, listaId:string) {
     let result = await HttpClient.get({
         url: `https://api.themoviedb.org/3/list/${listaId}/add_item?api_key=${apiKey}&session_id=${sessionId}`,
         method: "POST",
